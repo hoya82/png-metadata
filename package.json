@@ -1,0 +1,27 @@
+{
+  "name": "png-metadata",
+  "version": "1.0.0",
+  "description": "PNG Metadata reader TypeScript Library",
+  "main": "dist/png-metadata.js",
+  "repository": "git@github.com:hoya82/png-metadata.git",
+  "author": "Hoya Kim <hoya@mychar.info>",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "keywords": [
+    "png",
+    "metadata",
+    "typescript"
+  ],
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.2",
+    "typescript": "^5.5.3"
+  }
+}
