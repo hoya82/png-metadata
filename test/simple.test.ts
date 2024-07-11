@@ -1,5 +1,5 @@
 // Simple test
-import { PngMetadata as png } from '../src/png-metadata';
+import { PngMetadata } from '../src/png-metadata';
 import type { Chunk } from '../src/png-metadata';
 import { readFileSync } from 'fs';
 
@@ -13,9 +13,10 @@ function arrayBufferEquals(a: ArrayBuffer, b: ArrayBuffer): boolean {
   return true;
 }
 
-describe('test', function () {
+describe('simple', function () {
   const file = readFileSync(__dirname + '/simple.png');
   const bin = new Uint8Array(file);
+  const png = new PngMetadata(bin);
 
   it('isTestFileExists', function () {
     expect(file).toBeDefined();
@@ -24,23 +25,27 @@ describe('test', function () {
   });
 
   it('isPNG', function () {
-    expect(png.isPNG(bin)).toBe(true);
+    expect(png.isPNG()).toBe(true);
   });
 
   it('splitChunk', function () {
-    const chunks:Chunk[] = png.splitChunks(bin);
-    const bin2 = png.joinChunks(chunks);
+    const chunks:Chunk[] = png.splitChunks();
+    const bin2 = PngMetadata.joinChunks(chunks);
     expect(bin.byteLength).toBe(bin2.byteLength);
     expect(arrayBufferEquals(bin, bin2)).toBe(true);
   });
+});
 
+describe('currupted', function () {
   // This image has corrupt data at the end,
   // but we should be able to read it anyway
   const currupted = readFileSync(__dirname + '/garbage_data_after_iend.png');
+  const bin = new Uint8Array(currupted);
+  const png = new PngMetadata(bin);
 
   it('splitChunkWithGarbageData', function() {
     expect(() => {
-      png.splitChunks(currupted);
+      png.splitChunks();
     }).not.toThrow();
   });
 });
